@@ -96,7 +96,7 @@
     font-weight: 400;
   }
 
-  /* UPRAVENÝ PROSTOR PRO GIF KARTU */
+  /* PROSTOR PRO GIF KARTU */
   .main-content {
     flex-grow: 1;
     display: flex;
@@ -106,13 +106,12 @@
   }
   
   .main-content img {
-    /* ZDE SE URČUJE VELIKOST GIFU: PŘESNĚ JAKO LIŠTA */
     width: calc(100% - 7mm); 
     height: auto; 
     border-radius: 15px;
   }
 
-  /* SPODNÍ OBRÁZKOVÉ TLAČÍTKO (Nahrává tlacitko.png) */
+  /* SPODNÍ OBRÁZEK (Nahrává tlacitko.png, ale už není klikací) */
   .bottom-bar {
     display: flex;
     justify-content: center;
@@ -124,7 +123,7 @@
   .bottom-bar img {
     height: 55px; 
     width: auto;
-    cursor: pointer;
+    /* Odstraněn cursor: pointer, aby se to chovalo jako obyčejný obrázek */
   }
 </style>
 </head>
@@ -148,9 +147,7 @@
 </div>
 
 <div class="bottom-bar">
-  <a href="#">
-    <img src="tlacitko.png" alt="Přepínač">
-  </a>
+  <img src="tlacitko.png" alt="Přepínač">
 </div>
 
 <script>
@@ -164,4 +161,23 @@
 
   function updateClock() {
     const now = new Date();
-    const
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    const clockElement = document.getElementById("clock");
+    if (clockElement) {
+      const d = '<span class="dash">-</span>';
+      clockElement.innerHTML = day + d + month + d + year + '<span class="separator">|</span>' + hours + ":" + minutes + ":" + seconds;
+    }
+  }
+
+  updateClock(); 
+  setInterval(updateClock, 1000); 
+</script>
+
+</body>
+</html>
