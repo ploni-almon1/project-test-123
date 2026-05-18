@@ -20,7 +20,7 @@
   body {
     margin: 0;
     padding: 0;
-    background: #FFFFFF;
+    background: #FFFFFF; /* Čisté bílé pozadí */
     -webkit-font-smoothing: antialiased;
     overflow: hidden;
     height: 100vh;
@@ -29,20 +29,20 @@
     flex-direction: column;
   }
 
-  /* UPRAVENÁ LIŠTA - rozměry v cm a mm */
+  /* UPRAVENÁ LIŠTA - rozměry v cm a mm s ošetřením výřezu */
   .top-bar {
     background: #120F1D;
     color: white;
     display: flex;
     align-items: center;
-    padding: 12px 15px; /* Vnitřní prostor lišty */
-    border-radius: 8px; /* Zaoblené okraje */
+    padding: 12px 15px;
+    border-radius: 8px; /* Zaoblené rohy */
     
-    /* Vzdálenosti podle vašeho měření */
-    margin-top: calc(1.1cm + env(safe-area-inset-top, 0px)); /* 1,1 cm zvrchu (+ ošetření výřezu) */
+    /* Vzdálenosti */
+    margin-top: calc(1.1cm + env(safe-area-inset-top, 0px)); /* 1,1 cm shora */
     margin-left: 3.5mm; /* 3,5 mm zleva */
     margin-right: 3.5mm; /* 3,5 mm zprava */
-    margin-bottom: 6mm; /* 6 mm mezera mezi lištou a GIFem */
+    margin-bottom: 6mm; /* 6 mm mezera */
     
     box-sizing: border-box;
   }
@@ -95,38 +95,80 @@
     font-weight: 400;
   }
 
-  /* UPRAVENÝ PROSTOR PRO GIF - od kraje přesně 3,5 mm */
+  /* UPRAVENÝ PROSTOR PRO GIF - Karta bez stínů a vodoznaků */
   .main-content {
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* GIF se přimáčkne nahoru k té 6mm mezeře */
+    align-items: flex-start; /* Přimáčknout nahoru k mezeře */
     
-    /* Vzdálenosti zleva a zprava */
+    /* Vzdálenosti zleva a zprava - PŘESNĚ 3.5mm */
     padding-left: 3.5mm;
     padding-right: 3.5mm;
     box-sizing: border-box;
     width: 100%;
+    background: transparent; /* Odstraněno šedé pole a stíny */
   }
   
   .main-content img {
-    width: 100%; /* Natáhne se na max. šířku minus těch 3,5 mm z každé strany */
-    max-height: 75vh;
-    object-fit: contain; /* Zabrání oříznutí nebo deformaci obrázku */
+    width: 100%; /* Plná šířka obsahu, karta bude stejně široká jako lišta */
+    height: auto; /* Poměr stran GIFu */
+    max-height: 75vh; /* Omezení výšky */
+    object-fit: contain;
     border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    /* ŽÁDNÝ STÍN!box-shadow: 0 4px 10px rgba(0,0,0,0.1); */
   }
 
-  /* SPODNÍ TLAČÍTKO */
-  .bottom-bar {
+  /* SPODNÍ PŘEPÍNAČ - PŘESNÉ PŘEVZETÍ Z OBRÁZKU */
+  .switcher-bar {
     display: flex;
     justify-content: center;
-    padding-bottom: 25px; 
+    position: fixed; /* Plovoucí */
+    bottom: 25px; /* Nad navigační lištou */
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 100;
   }
-  
-  .bottom-bar img {
-    height: 80px; 
-    cursor: pointer;
+
+  .switcher-group {
+    display: flex;
+    background: rgba(245, 245, 250, 0.9); /* Světlejší podklad s průhledností */
+    border: 1px solid rgba(220, 220, 230, 0.8);
+    border-radius: 25px; /* Zaoblená skupina */
+    padding: 6px;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Jemný stín skupiny */
+  }
+
+  /* Tlačítko s ikonou '@' - Levý purpurový puntík */
+  .switcher-left {
+    width: 40px;
+    height: 40px;
+    background-color: #6C5CE7; /* Purpurová barva z obrázku */
+    border-radius: 50%; /* Kolećko */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 12px;
+    color: white;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+  }
+
+  /* Tlačítko pro kartu s ikonou '<->' - Pravé obrysové */
+  .switcher-right {
+    width: 50px;
+    height: 40px;
+    background-color: #FFFFFF; /* Bílé */
+    border: 2px solid #E0E0E0; /* Šedý obrys */
+    border-radius: 10px; /* Mírně zaoblený obdélník */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #A0A0A0; /* Šedá ikona */
+    font-size: 24px;
   }
 </style>
 </head>
@@ -149,10 +191,12 @@
   <img src="karta.gif" alt="Průkaz">
 </div>
 
-<div class="bottom-bar">
-  <a href="#">
-    <img src="tlacitko.png" alt="Otočit kartu">
-  </a>
+<div class="switcher-bar">
+  <div class="switcher-group">
+    <div class="switcher-left">@</div>
+    <div class="switcher-right">
+      <span class="material-icons" style="color: #6C5CE7;">swap_horiz</span> </div>
+  </div>
 </div>
 
 <script>
