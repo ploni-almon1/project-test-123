@@ -8,6 +8,8 @@
 <meta name="apple-touch-fullscreen" content="yes">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
+<meta name="theme-color" content="#FFFFFF">
+
 <meta name="robots" content="noindex, nofollow">
 
 <link rel="manifest" href="manifest.json">
@@ -19,9 +21,9 @@
 <style>
   body {
     margin: 0;
-    /* Ošetření výřezu (notche) - vytvoří nahoře bílé místo, pod které se posune zbytek */
+    /* Systémový notch bude mít bílé pozadí a obsah se posune bezpečně pod něj */
     padding-top: env(safe-area-inset-top, 0px);
-    background: #FFFFFF; /* Čisté bílé pozadí celé stránky i kolem notche */
+    background: #FFFFFF; /* Čistě bílé pozadí stránky */
     -webkit-font-smoothing: antialiased;
     overflow: hidden;
     height: 100vh;
@@ -31,17 +33,17 @@
     box-sizing: border-box;
   }
 
-  /* LIŠTA - rozměry v cm a mm */
+  /* ČERNÁ LIŠTA S DATEM */
   .top-bar {
     background: #120F1D;
     color: white;
     display: flex;
     align-items: center;
     padding: 12px 15px;
-    border-radius: 8px; /* Zaoblené rohy lišty */
+    border-radius: 8px; /* Zaoblené rohy */
     
-    /* Přesné vzdálenosti od okrajů */
-    margin-top: 1.1cm; /* 1,1 cm shora (od konce notche) */
+    /* Přesné vzdálenosti z vašeho měření */
+    margin-top: 1.1cm; /* 1,1 cm shora (pod bílým notchem) */
     margin-left: 3.5mm; /* 3,5 mm zleva */
     margin-right: 3.5mm; /* 3,5 mm zprava */
     margin-bottom: 6mm; /* 6 mm mezera mezi lištou a GIFem */
@@ -97,12 +99,12 @@
     font-weight: 400;
   }
 
-  /* PROSTOR PRO GIF - Karta bez stínů roztažená k okrajům */
+  /* PROSTOR PRO GIF KARTU */
   .main-content {
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* GIF je přitisknutý k horní 6mm mezeře */
+    align-items: flex-start; /* Přitisknuto k horní 6mm mezeře */
     
     /* Vzdálenosti zleva a zprava - PŘESNĚ 3.5mm */
     padding-left: 3.5mm;
@@ -112,24 +114,51 @@
   }
   
   .main-content img {
-    width: 100%; /* Roztáhne kartu přesně na šířku lišty */
+    width: 100%; /* Karta je stejně široká jako černá lišta */
     height: auto;
-    max-height: 70vh; /* Omezení výšky, aby zbylo místo na tlačítko dole */
+    max-height: 68vh; /* Omezení výšky, aby zbylo místo na spodní tlačítko */
     object-fit: contain;
     border-radius: 15px;
   }
 
-  /* SPODNÍ OBRÁZKOVÉ TLAČÍTKO */
-  .bottom-bar {
+  /* NAPROGRAMOVANÉ TLAČÍTKO PŘESNĚ PODLE SCREENSHOTU */
+  .switcher-container {
     display: flex;
     justify-content: center;
-    padding-bottom: 35px; /* Dostatečné odsazení od úplného spodku displeje */
+    padding-bottom: 30px; /* Odsazení od úplného spodku displeje */
+    background: #FFFFFF;
   }
-  
-  .bottom-bar img {
-    height: 60px; /* Výšku si upravte, aby odpovídala originálu */
-    width: auto;
+
+  .switcher-pill {
+    display: flex;
+    align-items: center;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0; /* Velmi jemný šedý rámeček */
+    border-radius: 35px; /* Hodně zaoblená kapsle */
+    padding: 6px 14px 6px 6px; /* Vnitřní odsazení */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Jemný stín pod kapslí */
     cursor: pointer;
+  }
+
+  /* Aktivní fialový kruh vlevo */
+  .pill-active-circle {
+    width: 42px;
+    height: 42px;
+    background: #5C3BE6; /* Fialovo-modrá barva z aplikace */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+
+  /* Ikona karty vpravo */
+  .pill-inactive-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 16px;
+    color: #A0AEC0; /* Šedá barva pro neaktivní ikonu */
   }
 </style>
 </head>
@@ -152,10 +181,15 @@
   <img src="karta.gif" alt="Průkaz">
 </div>
 
-<div class="bottom-bar">
-  <a href="#">
-    <img src="tlacitko.png" alt="Tlačítko menu">
-  </a>
+<div class="switcher-container">
+  <div class="switcher-pill">
+    <div class="pill-active-circle">
+      <span class="material-icons" style="font-size: 24px;">badge</span>
+    </div>
+    <div class="pill-inactive-icon">
+      <span class="material-icons" style="font-size: 26px;">credit_card</span>
+    </div>
+  </div>
 </div>
 
 <script>
