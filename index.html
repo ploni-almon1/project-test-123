@@ -48,7 +48,6 @@
     margin-top: 0.9cm; 
     margin-left: 18px; 
     margin-right: 18px; 
-    /* ZDE JE ÚPRAVA: Vráceno na 28px (přesnějších cca 8 mm) */
     margin-bottom: 28px; 
     
     box-sizing: border-box;
@@ -160,6 +159,7 @@
 </div>
 
 <script>
+  // Kód pro běžící hodiny
   function updateClock() {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
@@ -178,6 +178,19 @@
 
   updateClock(); 
   setInterval(updateClock, 1000); 
+
+  // Kód, který aktivuje offline režim
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(registration => {
+          console.log('Offline režim je aktivní!');
+        })
+        .catch(err => {
+          console.log('Chyba offline režimu: ', err);
+        });
+    });
+  }
 </script>
 
 </body>
